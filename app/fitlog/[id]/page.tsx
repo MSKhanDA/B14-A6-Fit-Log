@@ -223,8 +223,12 @@ export default function WorkoutDetailPage() {
                   <div>
                     <p className="text-gray-400 text-sm">EQUIPMENT</p>
                     <p>
-                      {workout.equipment && Array.isArray(workout.equipment) ? 
-                        workout.equipment.join(', ') : 
+                      {workout.equipment && 
+                      ((Array.isArray(workout.equipment) && workout.equipment.length > 0) ||
+                       (typeof workout.equipment === 'string' && workout.equipment.trim() !== '')) ?
+                        Array.isArray(workout.equipment) ? 
+                          workout.equipment.join(', ') : 
+                          String(workout.equipment) :
                         'Not specified'}
                     </p>
                   </div>

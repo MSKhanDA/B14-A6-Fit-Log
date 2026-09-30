@@ -265,18 +265,28 @@ export default function HomePage() {
                   </div>
                   <div className="p-4">
                     <div className="flex flex-wrap gap-2 mb-2">
-                      {workout.category && Array.isArray(workout.category) ? 
-                        workout.category.map((cat, idx) => (
-                          <span key={idx} className="bg-gray-700 text-green-400 text-xs px-2 py-1 rounded-full">
-                            {cat}
-                          </span>
-                        ))
-                      : <span className="bg-gray-700 text-green-400 text-xs px-2 py-1 rounded-full">N/A</span>}
+                      {workout.category && 
+                      ((Array.isArray(workout.category) && workout.category.length > 0) ||
+                       (typeof workout.category === 'string' && workout.category.trim() !== '')) ?
+                        Array.isArray(workout.category) ?
+                          workout.category.map((cat, idx) => (
+                            <span key={idx} className="bg-gray-700 text-green-400 text-xs px-2 py-1 rounded-full">
+                              {cat}
+                            </span>
+                          )) :
+                          [<span key="single-cat" className="bg-gray-700 text-green-400 text-xs px-2 py-1 rounded-full">
+                            {String(workout.category)}
+                          </span>] 
+                        : <span className="bg-gray-700 text-green-400 text-xs px-2 py-1 rounded-full">N/A</span>}
                     </div>
                     <h3 className="text-lg font-bold mb-1">{workout.name.toUpperCase()}</h3>
                     <p className="text-gray-400 text-sm mb-3">
-                      {workout.equipment && Array.isArray(workout.equipment) ? 
-                        workout.equipment.join(', ') : 
+                      {workout.equipment && 
+                      ((Array.isArray(workout.equipment) && workout.equipment.length > 0) ||
+                       (typeof workout.equipment === 'string' && workout.equipment.trim() !== '')) ?
+                        Array.isArray(workout.equipment) ? 
+                          workout.equipment.join(', ') : 
+                          String(workout.equipment) :
                         'Equipment not specified'}
                     </p>
                     
