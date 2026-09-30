@@ -13,16 +13,9 @@ const nextConfig = {
       },
     ],
   },
-  // Enable compression to reduce bundle size
-  webpack: (config, { isServer }) => {
-    // Further optimize the build
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false, // Disable fs module for client-side builds
-      };
-    }
-    return config;
+  // Explicitly enable Turbopack to resolve the conflict with webpack config
+  experimental: {
+    turbopack: {}, // Enable Turbopack explicitly
   },
 };
 
