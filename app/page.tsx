@@ -71,6 +71,46 @@ const getExerciseImage = (name: string): string => {
   return '/assets/Back Squat.webp'; // fallback to a default image
 };
 
+// Helper function to safely get equipment string
+const getEquipmentString = (equipment: string[] | string | undefined | null): string => {
+  if (!equipment) {
+    return 'Equipment not specified';
+  }
+  
+  if (Array.isArray(equipment) && equipment.length > 0) {
+    return equipment.join(', ');
+  }
+  
+  if (typeof equipment === 'string' && equipment.trim() !== '') {
+    return equipment;
+  }
+  
+  return 'Equipment not specified';
+};
+
+// Helper function to safely get category elements
+const getCategoryElements = (category: string[] | string | undefined | null) => {
+  if (!category) {
+    return [<span key="no-cat" className="bg-gray-700 text-green-400 text-xs px-2 py-1 rounded-full">N/A</span>];
+  }
+  
+  if (Array.isArray(category) && category.length > 0) {
+    return category.map((cat, idx) => (
+      <span key={idx} className="bg-gray-700 text-green-400 text-xs px-2 py-1 rounded-full">
+        {cat}
+      </span>
+    ));
+  }
+  
+  if (typeof category === 'string' && category.trim() !== '') {
+    return [<span key="single-cat" className="bg-gray-700 text-green-400 text-xs px-2 py-1 rounded-full">
+      {category}
+    </span>];
+  }
+  
+  return [<span key="no-cat" className="bg-gray-700 text-green-400 text-xs px-2 py-1 rounded-full">N/A</span>];
+};
+
 export default function HomePage() {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [loading, setLoading] = useState(true);
@@ -265,29 +305,11 @@ export default function HomePage() {
                   </div>
                   <div className="p-4">
                     <div className="flex flex-wrap gap-2 mb-2">
-                      {workout.category ? 
-                        (Array.isArray(workout.category) && workout.category.length > 0) ? 
-                          workout.category.map((cat, idx) => (
-                            <span key={idx} className="bg-gray-700 text-green-400 text-xs px-2 py-1 rounded-full">
-                              {cat}
-                            </span>
-                          )) :
-                          (typeof workout.category === 'string' && workout.category.trim() !== '') ?
-                            [<span key="single-cat" className="bg-gray-700 text-green-400 text-xs px-2 py-1 rounded-full">
-                              {workout.category}
-                            </span>] :
-                            [<span key="no-cat" className="bg-gray-700 text-green-400 text-xs px-2 py-1 rounded-full">N/A</span>]
-                        : [<span key="no-cat-def" className="bg-gray-700 text-green-400 text-xs px-2 py-1 rounded-full">N/A</span>]}
+                      {getCategoryElements(workout.category)}
                     </div>
                     <h3 className="text-lg font-bold mb-1">{workout.name.toUpperCase()}</h3>
                     <p className="text-gray-400 text-sm mb-3">
-                      {workout.equipment ? 
-                        (Array.isArray(workout.equipment) && workout.equipment.length > 0) ? 
-                          workout.equipment.join(', ') : 
-                          (typeof workout.equipment === 'string' && workout.equipment.trim() !== '') ? 
-                            workout.equipment : 
-                            'Equipment not specified'
-                        : 'Equipment not specified'}
+                      {getEquipmentString(workout.equipment)}
                     </p>
                     
                     <div className="flex justify-between text-sm text-gray-400 border-t border-gray-700 pt-3">

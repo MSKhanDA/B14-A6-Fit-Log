@@ -64,6 +64,46 @@ const getExerciseImage = (name: string): string => {
   return '/assets/Back Squat.webp'; // fallback to a default image
 };
 
+// Helper function to safely get equipment string
+const getEquipmentString = (equipment: string[] | string | undefined | null): string => {
+  if (!equipment) {
+    return 'Not specified';
+  }
+  
+  if (Array.isArray(equipment) && equipment.length > 0) {
+    return equipment.join(', ');
+  }
+  
+  if (typeof equipment === 'string' && equipment.trim() !== '') {
+    return equipment;
+  }
+  
+  return 'Not specified';
+};
+
+// Helper function to safely get category elements
+const getCategoryElements = (category: string[] | string | undefined | null) => {
+  if (!category) {
+    return [<span key="no-cat" className="bg-gray-700 text-green-400 text-xs px-2 py-1 rounded-full">N/A</span>];
+  }
+  
+  if (Array.isArray(category) && category.length > 0) {
+    return category.map((cat, idx) => (
+      <span key={idx} className="bg-gray-700 text-green-400 text-xs px-2 py-1 rounded-full">
+        {cat}
+      </span>
+    ));
+  }
+  
+  if (typeof category === 'string' && category.trim() !== '') {
+    return [<span key="single-cat" className="bg-gray-700 text-green-400 text-xs px-2 py-1 rounded-full">
+      {category}
+    </span>];
+  }
+  
+  return [<span key="no-cat" className="bg-gray-700 text-green-400 text-xs px-2 py-1 rounded-full">N/A</span>];
+};
+
 export default function WorkoutDetailPage() {
   const { id } = useParams();
   const router = useRouter();
@@ -207,13 +247,7 @@ export default function WorkoutDetailPage() {
               
               {/* Category Tags */}
               <div className="flex flex-wrap gap-2 mb-6">
-                {workout.category && Array.isArray(workout.category) ? 
-                  workout.category.map((cat, idx) => (
-                    <span key={idx} className="bg-gray-800 text-green-400 px-3 py-1 rounded-full text-sm">
-                      {cat}
-                    </span>
-                  ))
-                : <span className="bg-gray-800 text-green-400 px-3 py-1 rounded-full text-sm">N/A</span>}
+                {getCategoryElements(workout.category)}
               </div>
               
               {/* Key Specs Table */}
@@ -222,15 +256,7 @@ export default function WorkoutDetailPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-gray-400 text-sm">EQUIPMENT</p>
-                    <p>
-                      {workout.equipment ? 
-                        (Array.isArray(workout.equipment) && workout.equipment.length > 0) ? 
-                          workout.equipment.join(', ') : 
-                          (typeof workout.equipment === 'string' && workout.equipment.trim() !== '') ? 
-                            workout.equipment : 
-                            'Not specified'
-                        : 'Not specified'}
-                    </p>
+                    <p>{getEquipmentString(workout.equipment)}</p>
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">DIFFICULTY</p>
