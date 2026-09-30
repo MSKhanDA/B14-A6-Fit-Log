@@ -13,7 +13,10 @@ const nextConfig = {
       },
     ],
   },
-  // Remove the experimental turbopack config that caused the error
+  // Disable development indicators overlay
+  devIndicators: {
+    buildActivity: false,
+  },
 };
 
 module.exports = nextConfig;
