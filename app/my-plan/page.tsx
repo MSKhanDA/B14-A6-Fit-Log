@@ -73,8 +73,14 @@ export default function MyPlanPage() {
 
   // Calculate metrics
   const totalExercises = planWorkouts.length;
-  const totalMinutes = planWorkouts.reduce((sum, workout) => sum + workout.duration, 0);
-  const totalCalories = planWorkouts.reduce((sum, workout) => sum + workout.calories, 0);
+  const totalMinutes = planWorkouts.reduce((sum, workout) => {
+    const duration = typeof workout.duration === 'number' && !isNaN(workout.duration) ? workout.duration : 0;
+    return sum + duration;
+  }, 0);
+  const totalCalories = planWorkouts.reduce((sum, workout) => {
+    const calories = typeof workout.calories === 'number' && !isNaN(workout.calories) ? workout.calories : 0;
+    return sum + calories;
+  }, 0);
 
   // Load data from localStorage
   useEffect(() => {
@@ -182,11 +188,11 @@ export default function MyPlanPage() {
             </div>
             <div className="bg-gray-800 p-4 rounded-lg">
               <h3 className="text-gray-400 text-sm">Minutes</h3>
-              <p className="text-2xl font-bold">{totalMinutes}</p>
+              <p className="text-2xl font-bold">{typeof totalMinutes === 'number' && !isNaN(totalMinutes) ? totalMinutes : 0}</p>
             </div>
             <div className="bg-gray-800 p-4 rounded-lg">
               <h3 className="text-gray-400 text-sm">Calories</h3>
-              <p className="text-2xl font-bold">{totalCalories}</p>
+              <p className="text-2xl font-bold">{typeof totalCalories === 'number' && !isNaN(totalCalories) ? totalCalories : 0}</p>
             </div>
           </div>
 

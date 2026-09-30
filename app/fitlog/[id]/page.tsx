@@ -242,15 +242,15 @@ export default function WorkoutDetailPage() {
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">DURATION</p>
-                    <p>{workout.duration} min</p>
+                    <p>{typeof workout.duration === 'number' && !isNaN(workout.duration) ? `${workout.duration} min` : 'Not specified'}</p>
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">CALORIES</p>
-                    <p>{workout.calories} kcal</p>
+                    <p>{typeof workout.calories === 'number' && !isNaN(workout.calories) ? `${workout.calories} kcal` : 'Not specified'}</p>
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">RATING</p>
-                    <p>{workout.rating}/5</p>
+                    <p>{typeof workout.rating === 'number' && !isNaN(workout.rating) ? `${workout.rating}/5` : 'Not specified'}</p>
                   </div>
                 </div>
               </div>
