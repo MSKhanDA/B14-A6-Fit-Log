@@ -13,10 +13,7 @@ const nextConfig = {
       },
     ],
   },
-  // Explicitly enable Turbopack to resolve the conflict with webpack config
-  experimental: {
-    turbopack: {}, // Enable Turbopack explicitly
-  },
+  // Remove the experimental turbopack config that caused the error
 };
 
 module.exports = nextConfig;
