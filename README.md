@@ -30,7 +30,7 @@ FitLog is a sleek, dark-themed gym companion application designed for serious fi
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone [<repository-url>](https://github.com/MSKhanDA/B14-A6-Fit-Log.git)
    ```
 
 2. Navigate to the project directory:
